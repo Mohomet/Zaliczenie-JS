@@ -146,10 +146,12 @@
       function dodajWcisniety() 
       {
         let Historia2Element = document.querySelector(".Historia2");
-        licznik = licznik + 1;
+        
 
       if(sprawdzenie_wagi == 1 && sprawdzenie_wzrostu == 1)
+      
       {
+        licznik = licznik + 1;
         let nowyDiv = document.createElement("div");
         let nowyPrzycisk = document.createElement("button");
         nowyPrzycisk.innerHTML = "Pomiar z dnia " + data;
@@ -191,11 +193,12 @@
         if(sprawdzenie_wagi==1 && sprawdzenie_wzrostu==1)
        {
          BMI = wagaWartosc / ((wzrostWartosc*wzrostWartosc)/10000);
-         BMI = BMI.toFixed(2)
+        let BMIfx = BMI.toFixed(2)
          if(powtorzenie>=1)
           {
             if(BMI>tablica_bmi[tablica_bmi.length -1])
             {
+
              powtorzenie = powtorzenie + 1;
              alert('Przytyles wez sie za siebie');
             }
@@ -239,7 +242,7 @@
           tablica_wzrost.push(wzrostWartosc);
           tablica_czasu.push(data);
 
-          wynikElement.innerHTML = "Twoje BMI to: " + BMI;
+          wynikElement.innerHTML = "Twoje BMI to: " + BMIfx;
           wpisanywzrostElement.innerHTML = "Podany wzrost: " + wzrostWartosc + "cm";
           wpisanawagaElement.innerHTML = "Podana waga: " + wagaWartosc + "kg";
 
@@ -268,7 +271,7 @@
                    
             }
             let srbmi = wynikibmi/tablica_bmi.length;
-            srbmi = srbmi.toFixed(2)
+            srbmi = srbmi.toFixed(3)
             let wynikibmi2 = "Srednia BMI to: " + srbmi;
             return(wynikibmi2);
           }

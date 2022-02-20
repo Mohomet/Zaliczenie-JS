@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Kalulator BMI</title>
+  </head>
+  <style>
+    html{
+        background-color: rgb(221, 199, 101);
+        color:white   }
+
+  h1 {
+    text-align: center;
+    font-size: 40px; }
+
+  #naglowek {
+      border: 2px solid rgb(255, 0, 0);
+    margin: 0 auto 0 auto;
+    margin-bottom: 2%;
+    width: 400;
+    background-color: rgb(25, 0, 255);  }
+
+  #wynik {
+      border: 2px solid rgb(255, 0, 0);
+    text-align: center;
+    font-size: 30px;
+    float: left;
+    width: 35%;
+    margin-right: 20px;
+    background-color: rgb(25, 0, 255);;
+    color: white;  }
+
+  #oknowpisania {
+      border: 2px solid rgb(255, 0, 0);
+    float: left;
+    font-size: 30px;
+    width: 25%;
+    margin-right: 20px;
+    background-color: rgb(25, 0, 255);;}
+
+  #historia {
+      border: 2px solid rgb(255, 0, 0);
+    text-align: center;
+    font-size: 30px;
+    float: left;
+    width: 35%;
+    background-color: rgb(25, 0, 255);;  }
+
+  .wpisanywzrost,.wpisanawaga {
+    margin: 7px;
+    border: 1px solid rgb(255, 0, 0);
+    background-color: rgb(25, 0, 255);;
+    color: rgb(255, 255, 255);
+    font-size: 25px;}
+
+  .wynik{
+    margin: 7px;
+    border: 1px solid rgb(255, 0, 0);
+    background-color: rgb(25, 0, 255);
+    color: rgb(255, 255, 255);
+    font-size: 35px;}
+
+  .przycisk {
+    margin: 10px;
+    margin-top: 0%;
+    width: 20%; }
+    .przycisk2 {
+    margin: 10px;
+    margin-top: 0%;
+    width: 20%; }
+
+    .wzrost, .waga {
+        width: 30%
+    }
+
+
+
+  #wypisanasredniabmi {
+    border: 2px solid rgb(255, 0, 0);
+    font-size: 20px;
+    text-align: center;
+    display: inline-block;
+    width: 66%;
+    background-color: rgb(25, 0, 255);
+    color: rgb(255, 255, 255);
+    height: 35px;
+  }
+
+</style>
+  <body>
+
+        <div id="oknowpisania">
+          <div>
+            Waga(kg): <input class="waga" />
+          </div>
+          <div>
+            Wzrost(cm): <input class="wzrost" />
+          </div>
+          <div>
+            <button class="przyciskDodaj">Oblicz</button>
+         </div> 
+          </div>
+          <div id="wynik">
+            <p class="wpisanawaga">Czekam na twoja wage</p>
+            <p class="wpisanywzrost">Czekam na twoj wzrost</p>
+            <p class="wynik">BMI</p>
+          </div>
+          <div id="historia">
+            <p id="wypisanasredniabmi">Średnia BMI</p>
+    <div class="Historia2">
+
+    </div>
+
+    <script>
+          let licznik = 0;
+          let BMI;
+          let sprawdzenie_wagi;
+          let sprawdzenie_wzrostu;
+          let tablica_bmi = [];
+          let tablica_waga = [];
+          let tablica_wzrost = [];
+          let tablica_czasu = [];
+          let tablicaogolna = [];
+          let data = new Date();
+          let powtorzenie = 0;
+          let wynikibmi ;
+          let wyniksr = 0;
+          let licznikdodprzycisk = 0;
+          let alertwaga;
+          let alertwzrost;
+
+      function nowyrekordhistori(event) 
+      {
+
+          let przyciskWcisniety = event.target;
+          let idWcisnietegoPrzycisku = przyciskWcisniety.id;
+          let wynikElement = document.querySelector('.wynik');
+          let wpisanywzrostElement = document.querySelector('.wpisanywzrost');
+          let wpisanawagaElement = document.querySelector('.wpisanawaga');
+
+          wynikElement.innerHTML = "Twoje BMI to: " + tablica_bmi[idWcisnietegoPrzycisku - 1];
+          wpisanywzrostElement.innerHTML = "Podany wzrost: " + tablica_wzrost[idWcisnietegoPrzycisku - 1] + "cm";
+          wpisanawagaElement.innerHTML = "Podana waga: " + tablica_waga[idWcisnietegoPrzycisku - 1] + "kg";
+
+      }
+
+      function dodajWcisniety() 
+      {
+        let Historia2Element = document.querySelector(".Historia2");
+        licznik = licznik + 1;
+
+      if(sprawdzenie_wagi == 1 && sprawdzenie_wzrostu == 1)
+      {
+        let nowyDiv = document.createElement("div");
+        let nowyPrzycisk = document.createElement("button");
+        nowyPrzycisk.innerHTML = "Pomiar z dnia " + data;
+        nowyPrzycisk.id = licznik;
+        nowyDiv.appendChild(nowyPrzycisk);
+        Historia2Element.appendChild(nowyDiv);
+        nowyPrzycisk.addEventListener("click", nowyrekordhistori);
+      }
+      }
+
+      let przyciskElement = document.querySelector(".przyciskDodaj");
+
+      function przyciskoblicz() 
+      {
+      
+        let wagaElement = document.querySelector('.waga');
+        let wzrostElement = document.querySelector('.wzrost');
+     
+
+        let wagaWartosc = parseInt(wagaElement.value);
+        let wzrostWartosc = parseInt(wzrostElement.value);
+
+ 
+        if(wagaWartosc>=40 && wagaWartosc<=200)
+        sprawdzenie_wagi=1;
+        else
+        {
+          sprawdzenie_wagi=0;
+         
+        }
+         if(wzrostWartosc>= 120 && wzrostWartosc<=240)
+         sprawdzenie_wzrostu=1;
+         else
+        {
+          sprawdzenie_wzrostu=0;
+         
+        }
+        
+        if(sprawdzenie_wagi==1 && sprawdzenie_wzrostu==1)
+       {
+         BMI = wagaWartosc / ((wzrostWartosc*wzrostWartosc)/10000);
+         BMI = BMI.toFixed(2)
+         if(powtorzenie>=1)
+          {
+            if(BMI>tablica_bmi[tablica_bmi.length -1])
+            {
+             powtorzenie = powtorzenie + 1;
+             alert('Przytyles wez sie za siebie');
+            }
+            else
+            {
+              powtorzenie = powtorzenie + 1;
+             alert('Brawo schudles');
+            }
+          }
+          else
+          {
+            powtorzenie = powtorzenie + 1;
+            alert('To jest twoj pierwszy pomiar'); 
+          }
+              function getTime() 
+              { 
+                let teraz = new Date();
+                let miesiac = teraz.getMonth()+1;
+                let godzina = teraz.getHours();
+                let minuty = teraz.getMinutes();
+                let sekundy = teraz.getSeconds();
+                if(miesiac < 10)
+                miesiac = "0"+miesiac;
+                if(godzina < 10)
+                godzina = "0"+godzina;
+                if(sekundy < 10)
+                sekundy = "0"+sekundy;
+                if(minuty < 10)
+                minuty = "0"+minuty;
+                let wynik = teraz.getDate() + "." + miesiac + "." + teraz.getFullYear() + " " + godzina + ":" + minuty + ":" + sekundy;
+
+                return(wynik);
+              }
+
+          data =  getTime();
+          let wynikElement = document.querySelector('.wynik');
+          let wpisanywzrostElement = document.querySelector('.wpisanywzrost');
+          let wpisanawagaElement = document.querySelector('.wpisanawaga');
+          tablica_bmi.push(BMI);
+          tablica_waga.push(wagaWartosc);
+          tablica_wzrost.push(wzrostWartosc);
+          tablica_czasu.push(data);
+
+          wynikElement.innerHTML = "Twoje BMI to: " + BMI;
+          wpisanywzrostElement.innerHTML = "Podany wzrost: " + wzrostWartosc + "cm";
+          wpisanawagaElement.innerHTML = "Podana waga: " + wagaWartosc + "kg";
+
+       }
+       else
+       {
+         if(sprawdzenie_wagi == 0 && sprawdzenie_wzrostu == 0)
+         alert('Wzrost i waga poza zakresem. Wprowadz ponownie dane');
+         else
+         {
+           if(sprawdzenie_wagi == 0)
+           alert('Waga poza zakresem. Wprowadz jeszcze raz');
+           else
+           alert('Wzrost poza zakresem. Wprowadz jeszcze raz'); 
+         }    
+            
+       }
+       function sr()
+          {
+            let wynikibmi = 0;
+            for( let b = 0; b<tablica_bmi.length; b++)
+           {
+            
+            let ztablicy = parseFloat(tablica_bmi[b]);
+            wynikibmi = wynikibmi + ztablicy;   
+                   
+            }
+            let srbmi = wynikibmi/tablica_bmi.length;
+            srbmi = srbmi.toFixed(2)
+            let wynikibmi2 = "Srednia BMI to: " + srbmi;
+            return(wynikibmi2);
+          }
+          wyniksr = sr();
+          let bmisr = document.querySelector("#wypisanasredniabmi");
+          bmisr.innerHTML = wyniksr;
+
+         
+      }
+      
+      przyciskElement.addEventListener("click", przyciskoblicz);
+      przyciskElement.addEventListener("click", dodajWcisniety);
+
+      
+    </script>
+  </body>
+</html>
